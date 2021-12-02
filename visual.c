@@ -1,5 +1,7 @@
-#include <mlx.h>
+#include "mlx/mlx.h"
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 typedef struct	s_data {
 	void	*img;
@@ -17,34 +19,34 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void draw_line(void *mlx, void *win, int beginX, int beginY, int endX, int endY, int color)
+void draw_line(void *mlx, void *win, int beginX, int beginY, int endX, int endY, int color) //
 {
 	double deltaX = endX - beginX; // 10
 	double deltaY = endY - beginY; // 0
-	int pixels = (((deltaX * deltaX) + (deltaY * deltaY)));
-	int pix_fix;
+	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+	int pix_fix = 0;
 	double pixelX = beginX;
 	double pixelY = beginY;
 
 	deltaX /= pixels; // 1
 	deltaY /= pixels; // 0
 	pix_fix = pixels;
-	while (pixels >= pix_fix)
-	{
-    	//my_mlx_pixel_put(data, pixelX, pixelY, color);
-		mlx_pixel_put(mlx, win, pixelX, pixelY, color);
-    	pixelX += deltaX;
-    	pixelY += deltaY;
-    	--pixels;
-	}
 	while (pixels)
 	{
     	//my_mlx_pixel_put(data, pixelX, pixelY, color);
 		mlx_pixel_put(mlx, win, pixelX, pixelY, color);
-    	pixelX -= deltaX;
-    	pixelY += deltaY;
+    	pixelX += 1;
+    	pixelY = pow(pixelX, 2);
     	--pixels;
 	}
+	// while (pixels)
+	// {
+    // 	//my_mlx_pixel_put(data, pixelX, pixelY, color);
+	// 	mlx_pixel_put(mlx, win, pixelX, pixelY, color);
+    // 	pixelX -= deltaX;
+    // 	pixelY += deltaY;
+    // 	--pixels;
+	// }
 }
 
 int	main(void)
@@ -58,10 +60,10 @@ int	main(void)
 	mlx = mlx_init(); /*establish a connection to the correct
 	 graphical system and will return a void * which holds the location of our current MLX instance*/
 	
-	mlx_win = mlx_new_window(mlx, 500, 500, "pls lemme do this"); /*function, which will return 
+	mlx_win = mlx_new_window(mlx, 1000, 1000, "pls lemme do this"); /*function, which will return 
 	a pointer to the window we have just created. We can give the window height, width and a title. */
 	
-	img.img = mlx_new_image(mlx, 500, 500);
+	img.img = mlx_new_image(mlx, 1000, 1000);
 	/*
 	** After creating an image, we can call `mlx_get_data_addr`, we pass
 	** `bits_per_pixel`, `line_length`, and `endian` by reference. These will
@@ -73,9 +75,13 @@ int	main(void)
 //	my_mlx_pixel_put(&img, 5, 5, 0x0099FFFF);
 
 	//draw_line(&img, 500, 500, 0, 0, 0x0099FFFF);
-	draw_line(mlx, mlx_win, 640, 640, 10, 10, 0x0099FF);
-//		mlx_put_image_to_window(mlx, mlx_win, img.img, x, y);
+	draw_line(mlx, mlx_win, 0, 0, 10000, 10000, 0x0099FF);
+		//mlx_put_image_to_window(mlx, mlx_win, img.img, x, y);
+// 	draw_line(mlx, mlx_win, 250, 0, 500, 250, 0x00CCFF00);  //beg x y end x y 
+// 	draw_line(mlx, mlx_win, 500, 250, 250, 500, 0x00CC0099);  //beg x y end x y 
+// 	draw_line(mlx, mlx_win, 250, 500, 0, 250, 0x0000FFFF);  //beg x y end x y 
+// //	sleep(1);
+// //	draw_line(mlx, mlx_win, 0, 250, 250, 0, 0x00FFFF99);
 
-	
 	mlx_loop(mlx); //initiate the window rendering
 }
