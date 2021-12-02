@@ -1,7 +1,4 @@
-#include "mlx/mlx.h"
-#include <math.h>
-#include <stdlib.h>
-#include <time.h>
+#include "fractol.h"
 
 typedef struct	s_data {
 	void	*img;
