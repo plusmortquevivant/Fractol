@@ -3,7 +3,7 @@ CFLAGS  =   -Werror -Wall -Wextra
 MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
 HEADER  =  fractol.h
 NAME  =  fractol
-SRC  =  visual.c basic_math.c
+SRC  =  visual.c basic_math.c main.c
 
 OBJECTS =  $(SRC:.c=.o)
 

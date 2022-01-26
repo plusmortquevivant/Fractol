@@ -5,11 +5,14 @@
 # include <stdlib.h>
 # include "mlx/mlx.h"
 # include <math.h>
+# include <stdio.h>
 
+# define WIDTH 960
+# define HEIGHT 540
 typedef struct	s_complex
 {
-	int Re;
-	int Im;	
+	double	Re;
+	double	Im;
 }				t_complex;
 
 typedef struct	s_win
@@ -18,7 +21,7 @@ typedef struct	s_win
 	void	*win;
 	void	*img;
 	void	*addr;
-	int		line_l;
+	int		ll;
 	int		bpp;
 	int		en;
 }				t_win;
@@ -31,5 +34,11 @@ typedef struct	s_point
 	int im_y;
 }				t_point;
 
+
+
+t_complex	multiple(t_complex a, t_complex b);
+t_complex	add(t_complex a, t_complex b);
+t_complex	divide(t_complex a, t_complex b);
+double		mod(t_complex a);
 
 #endif
