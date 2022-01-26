@@ -1,29 +1,45 @@
-CC    =  gcc
-CFLAGS  =   -Werror -Wall -Wextra
-MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
-HEADER  =  fractol.h
-NAME  =  fractol
-SRC  =  visual.c basic_math.c main.c
+NAME			=	fractol
+SRCS_DIR		=	./srcs/
+OBJS_DIR		=	./objs/
+HEADERS_DIR		=	./includes/
+# LIBFT_DIR		=	./libft/
+SRCS			=	$(wildcard $(SRCS_DIR)*.c)
 
-OBJECTS =  $(SRC:.c=.o)
+HEADERS			=	$(wildcard $(HEADERS_DIR)*.h)
+OBJS			=	$(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
+CC				=	gcc
+CFLAGS			=	-Wall -Wextra -Werror
+LDFLAGS			=	-L$(LIBMLX_DIR) -lmlx -framework OpenGL -framework Appkit
+RM				=	rm -f
+# LIBFT			=	$(addprefix $(LIBFT_DIR), libft.a)
+LIBMLX			=	$(addprefix $(LIBMLX_DIR), libmlx.a)
+# LIBFT_DIR		=	./libft/
+LIBMLX_DIR		=	./mlx/
 
 all:	$(NAME)
 
-$(NAME):	$(OBJECTS) $(HEADER)
-	@$(CC) $(CFLAGS) $(OBJECTS) -I $(HEADER) $(MLX_FLAGS) -o $(NAME)
+
+$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(HEADERS)  
+	$(CC) $(CFLAGS) -I $(HEADERS_DIR) -Imlx -c $< -o $@
+
+
+$(OBJS_DIR):
+	mkdir objs
+$(LIBMLX):
+	make -C $(LIBMLX_DIR)
+
+$(NAME): $(OBJS_DIR) $(OBJS) $(LIBMLX)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 	@echo ""
 	@echo "\x1b[1;36m \x1b[0;36m DONE ☆*:.｡.o(≧▽≦)o.｡.:*☆\033[0m"
 	@echo ""
 
-%.o:    %.c
-	$(CC) $(CFLAGS) -I $(HEADER) -c $^ -o $@
-
 clean:
-	rm -f $(OBJECTS)
+		$(RM) -r $(OBJS_DIR)
 
-fclean:	clean
-	rm -f $(NAME)
+fclean: clean
+		$(RM) $(NAME)
 
-re:	fclean all
+re:	fclean $(OBJS_DIR) all
 
-.PHONY:	all clean fclean re bonus
+.PHONY:	all clean fclean re
