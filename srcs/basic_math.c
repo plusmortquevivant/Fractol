@@ -1,12 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   basic_math.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arichie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/27 23:54:51 by arichie           #+#    #+#             */
+/*   Updated: 2022/01/27 23:54:53 by arichie          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fractol.h"
 
-t_complex	multiple(t_complex a, t_complex b)
+int	check(char *str)
 {
-	t_complex	temp;
+	int	i;
 
-	temp.re = a.re * b.re - a.im * b.im;
-	temp.im = a.re * b.im + b.re * a.im;
-	return (temp);
+	i = 0;
+	if (*str == '-')
+		str++;
+	while (ft_isdigit(*str))
+	{
+		str++;
+		i++;
+	}
+	if (*str == '.' && i <= 5)
+	{
+		str++;
+		while (ft_isdigit(*str))
+		{
+			str++;
+			i++;
+		}
+		if (*str == '\0' && i > 0 && i <= 10)
+			return (1);
+	}
+	else if (*str == '\0' && i > 0)
+		return (1);
+	return (0);
+}
+
+double	get_result2(char **nbr)
+{
+	double	result2;
+
+	result2 = 0;
+	while (ft_isdigit(**nbr))
+		(*nbr)++;
+	(*nbr)--;
+	while (ft_isdigit(**nbr))
+	{
+		result2 = (result2 + (**nbr - '0')) / 10;
+		(*nbr)--;
+	}
+	return (result2);
+}
+
+double	get_result1(char **nbr)
+{
+	double	result1;
+
+	result1 = 0;
+	while (ft_isdigit(**nbr))
+	{
+		result1 = result1 * 10 + (**nbr - '0');
+		(*nbr)++;
+	}
+	return (result1);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -21,92 +81,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (*(unsigned char *)s1 - *(unsigned char *)(s2 - 1));
 }
 
-static int	ft_isspace(int c)
-{
-	return (c == ' ' || ('\t' <= c && c <= '\r'));
-}
-
-static int	ft_isdigit(int c)
+int	ft_isdigit(int c)
 {
 	return ('0' <= c && c <= '9');
-}
-
-static int	ft_atoi(const char *nptr)
-{
-	int	sign;
-	int	n;
-
-	n = 0;
-	while (ft_isspace(*nptr))
-		nptr++;
-	if (*nptr == '-')
-	{
-		sign = -1;
-		nptr++;
-	}
-	else
-	{
-		sign = 1;
-		if (*nptr == '+')
-			nptr++;
-	}
-	while (ft_isdigit(*nptr))
-		n = n * 10 + (*nptr++ - '0');
-	return (sign * n);
-}
-
-static size_t	ft_strlen(const char *s)
-{
-	const char	*str;
-
-	str = s;
-	while (*str)
-	{
-		str++;
-	}
-	return (str - s);
-}
-
-static char	*ft_strchr(const char *s, int c)
-{
-	const char	*str;
-	char		ch;
-
-	str = s;
-	ch = c;
-	while (*str)
-	{
-		str++;
-	}
-	while (str >= s)
-	{
-		if (*str-- == ch)
-		{
-			return ((char *)str + 1);
-		}
-	}
-	return (NULL);
-}
-
-double	ft_atof(char *str)
-{
-	double	f_int;
-	double	f_frac;
-	double	sign;
-	char	*str_frac;
-
-	f_int = ft_atoi(str);
-	if (f_int >= 0)
-		sign = 1;
-	else
-	{
-		sign = -1;
-		f_int = 0 - f_int;
-	}
-	str_frac = ft_strchr(str, '.');
-	if (str_frac++ != NULL)
-		f_frac = ft_atoi(str_frac) / pow(10, ft_strlen(str_frac));
-	else
-		f_frac = 0.0;
-	return (sign * (f_int + f_frac));
 }
