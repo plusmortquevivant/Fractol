@@ -8,12 +8,11 @@
 # include <stdio.h>
 # include "error.h"
 
-# define WIDTH			960
-# define HEIGHT			540
+# define WIDTH			800
+# define HEIGHT			600
 # define MIN_IM 		-2.0
 # define MIN_RE			-2.0
 # define MAX_RE			2.0
-# define MAX_IM			2.0
 # define MAX_ITERATION	100
 # define COLOR			0xffcccc
 
@@ -62,14 +61,14 @@ void	my_mlx_put(t_win *data, int x, int y, int color);
 
 //fractal handlers
 t_fractal	*init_fractal(int argc, char **argv);
+double	mandelbrot(int *i, t_fractal *fractal);
+double	julia(int *i, t_fractal *fractal);
+void	draw_fractal(t_win *list);
 
 
 //basic ops
 t_complex	multiple(t_complex a, t_complex b);
-t_complex	add(t_complex a, t_complex b);
-t_complex	divide(t_complex a, t_complex b);
-double		mod(t_complex a);
 int	ft_strcmp(const char *s1, const char *s2);
-
+double	ft_atof(char *str);
 
 #endif

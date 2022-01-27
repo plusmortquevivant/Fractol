@@ -2,18 +2,15 @@ NAME			=	fractol
 SRCS_DIR		=	./srcs/
 OBJS_DIR		=	./objs/
 HEADERS_DIR		=	./includes/
-# LIBFT_DIR		=	./libft/
 SRCS			=	$(wildcard $(SRCS_DIR)*.c)
 
 HEADERS			=	$(wildcard $(HEADERS_DIR)*.h)
 OBJS			=	$(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
 CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror
-LDFLAGS			=	-L$(LIBMLX_DIR) -lmlx -framework OpenGL -framework Appkit
+CFLAGS			=	-Wall -Wextra -Werror -O2 -g -fsanitize=address
+LDFLAGS			=	-L$(LIBMLX_DIR) -lmlx -framework OpenGL -framework Appkit -O2
 RM				=	rm -f
-# LIBFT			=	$(addprefix $(LIBFT_DIR), libft.a)
 LIBMLX			=	$(addprefix $(LIBMLX_DIR), libmlx.a)
-# LIBFT_DIR		=	./libft/
 LIBMLX_DIR		=	./mlx/
 
 all:	$(NAME)

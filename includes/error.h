@@ -5,4 +5,5 @@
 # define INVALID_NAME		2
 # define BAD_MEMALLOC		NULL
 # define INIT_ERROR			NULL
+# define BAD_USAGE			3
 #endif
